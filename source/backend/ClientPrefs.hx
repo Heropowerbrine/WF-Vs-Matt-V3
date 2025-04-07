@@ -8,6 +8,13 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
+	public var screensaver:Bool = false;
+ 	public var wideScreen:Bool = false;
+ 	public var controlsAlpha:Float = 0.7;
+ 	public var hideHitboxHints:Bool = false;
+ 	#if android
+ 	public var storageType:String = "EXTERNAL_DATA";
+ 	#end
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var opponentStrums:Bool = true;
