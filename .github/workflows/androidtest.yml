@@ -19,21 +19,12 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.4
+          haxe-version: 4.3.6
 
       - name: Install Libraries
         run: |
           haxelib install hmm --quiet
           haxelib run hmm install --quiet
-
-      - name: Download SScript
-        run: |
-          wget https://github.com/CobaltBar/SScript-Archive/raw/main/archives/SScript-8%2C1%2C6.zip -O SScript-8,1,6.zip
-          unzip SScript-8,1,6.zip -d ./source_directory/
-
-      - name: Install SScript via Haxelib
-        run: |
-          haxelib dev SScript ./source_directory/
 
       - name: Configure Android
         run: |
