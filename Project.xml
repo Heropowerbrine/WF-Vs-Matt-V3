@@ -158,6 +158,7 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="CRASH_HANDLER" />
 	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER" />
 	<haxedef name="HXCPP_STACK_TRACE" if="CRASH_HANDLER" />
+	<haxedef name="HXCPP_CATCH_SEGV" if="CRASH_HANDLER" />
 	
 	<!--Disable deprecated warnings-->
 	<haxedef name='no-deprecation-warnings' />
