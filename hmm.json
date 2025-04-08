@@ -83,13 +83,6 @@
       "url": "https://github.com/mcagabe19/linc_luajit-rewriten.git"
     },
     {
-      "name": "extension-androidtools",
-      "type": "git",
-      "dir": null,
-      "ref": "df9dfd0cda74e5460ae3afcfff1081c50959ed4a",
-      "url": "https://github.com/MAJigsaw77/extension-androidtools"
-    },
-    {
       "name": "funkin.vis",
       "type": "git",
       "dir": null,
