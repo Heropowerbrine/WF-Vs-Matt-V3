@@ -10,19 +10,19 @@
     {
       "name": "openfl",
       "type": "haxelib",
-      "version": "9.3.4"
+      "version": "9.3.2"
     },
     {
       "name": "flixel",
       "type": "git",
       "dir": null,
-      "ref": "5.8.0",
+      "ref": "5.5.0",
       "url": "https://github.com/MobilePorting/flixel"
     },
     {
       "name": "flixel-addons",
       "type": "haxelib",
-      "version": "3.2.3"
+      "version": "3.2.1"
     },
     {
       "name": "flixel-tools",
@@ -32,7 +32,7 @@
     {
       "name": "flixel-ui",
       "type": "haxelib",
-      "version": "2.6.1"
+      "version": "2.5.0"
     },
     {
       "name": "hxcpp",
@@ -43,9 +43,11 @@
     },
     {
       "name": "hxCodec",
-      "type": "haxelib",
-      "version": null
-     },
+      "type": "git",
+      "dir": null,
+      "ref": "cafc58e9046505ff93fa659339808b53faa5d6f3",
+      "url": "https://github.com/polybiusproxy/hxCodec"
+    },
     {
       "name": "hxvlc",
       "type": "git",
@@ -54,35 +56,35 @@
       "url": "https://github.com/MAJigsaw77/hxvlc"
     },
     {
-      "name": "hxcpp-debug-server",
-      "type": "haxelib",
-      "version": null
+      "name": "SScript",
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/MobilePorting/SScript-7.7.0"
     },
     {
       "name": "tjson",
       "type": "haxelib",
-      "version": null
+      "version": "1.4.0"
     },
     {
       "name": "hxdiscord_rpc",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "linc_luajit",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/MAJigsaw77/hxdiscord_rpc"
+      "ref": "master",
+      "url": "https://github.com/MobilePorting/linc_luajit"
     },
     {
       "name": "flxanimate",
       "type": "git",
       "dir": null,
       "ref": "dev",
-      "url": "https://github.com/ShadowMario/flxanimate"
-    },
-    {
-      "name": "linc_luajit",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/mcagabe19/linc_luajit-rewriten.git"
+      "url": "https://github.com/ShadowMario/flxanimate.git"
     },
     {
       "name": "funkin.vis",
