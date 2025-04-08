@@ -57,6 +57,8 @@ class CopyState extends MusicBeatState
 
 	override function create()
 	{
+		File.saveContent("files/test.txt", "This is a test text because the port is crashing for some reason");
+                trace("Test file written.");
 		locatedFiles = [];
 		maxLoopTimes = 0;
 		checkExistingFiles();
