@@ -4,23 +4,14 @@ import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxRect;
-
 import openfl.display.BitmapData;
 import openfl.display3D.textures.RectangleTexture;
 import openfl.utils.AssetType;
-import openfl.utils.Assets as OpenFlAssets;
+import openfl.utils.Assets;
 import openfl.system.System;
 import openfl.geom.Rectangle;
-
-import lime.utils.Assets;
-import flash.media.Sound;
-
+import openfl.media.Sound;
 import haxe.Json;
-
-
-#if MODS_ALLOWED
-import backend.Mods;
-#end
 
 class Paths
 {
@@ -57,6 +48,9 @@ class Paths
 
 		// run the garbage collector for good measure lmfao
 		System.gc();
+		#if cpp
+		cpp.NativeGc.run(true);
+		#end
 	}
 
 	// define the locally tracked assets
@@ -117,11 +111,10 @@ class Paths
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
 				levelPath = getLibraryPathForce(file, 'week_assets', currentLevel);
-				if (OpenFlAssets.exists(levelPath, type))
+				if (Assets.exists(levelPath, type))
 					return levelPath;
 			}
 		}
-
 		return getSharedPath(file);
 	}
 
@@ -238,8 +231,8 @@ class Paths
 				localTrackedAssets.push(file);
 				return currentTrackedAssets.get(file);
 			}
-			else if (OpenFlAssets.exists(file, IMAGE))
-				bitmap = OpenFlAssets.getBitmapData(file);
+			else if (Assets.exists(file, IMAGE))
+				bitmap = Assets.getBitmapData(file);
 		}
 
 		if (bitmap != null)
@@ -262,8 +255,8 @@ class Paths
 			else
 			#end
 			{
-				if (OpenFlAssets.exists(file, IMAGE))
-					bitmap = OpenFlAssets.getBitmapData(file);
+				if (Assets.exists(file, IMAGE))
+					bitmap = Assets.getBitmapData(file);
 			}
 
 			if(bitmap == null) return null;
@@ -307,11 +300,8 @@ class Paths
 			}
 		}
 		#end
-		if (Assets.exists(getSharedPath(key)))
-			return Assets.getText(getSharedPath(key));
-
 		var path:String = getPath(key, TEXT);
-		if(OpenFlAssets.exists(path, TEXT)) return Assets.getText(path);
+		if(Assets.exists(path, TEXT)) return Assets.getText(path);
 		return null;
 	}
 
@@ -343,7 +333,7 @@ class Paths
 		}
 		#end
 
-		if(OpenFlAssets.exists(getPath(key, type, library, false))) {
+		if(Assets.exists(getPath(key, type, library, false))) {
 			return true;
 		}
 		return false;
@@ -355,7 +345,7 @@ class Paths
 		var imageLoaded:FlxGraphic = image(key, library, allowGPU);
 
 		var myXml:Dynamic = getPath('images/$key.xml', TEXT, library, true);
-		if(OpenFlAssets.exists(myXml) #if MODS_ALLOWED || (FileSystem.exists(myXml) && (useMod = true)) #end )
+		if(Assets.exists(myXml) #if MODS_ALLOWED || (FileSystem.exists(myXml) && (useMod = true)) #end )
 		{
 			#if MODS_ALLOWED
 			return FlxAtlasFrames.fromSparrow(imageLoaded, (useMod ? File.getContent(myXml) : myXml));
@@ -366,7 +356,7 @@ class Paths
 		else
 		{
 			var myJson:Dynamic = getPath('images/$key.json', TEXT, library, true);
-			if(OpenFlAssets.exists(myJson) #if MODS_ALLOWED || (FileSystem.exists(myJson) && (useMod = true)) #end )
+			if(Assets.exists(myJson) #if MODS_ALLOWED || (FileSystem.exists(myJson) && (useMod = true)) #end )
 			{
 				#if MODS_ALLOWED
 				return FlxAtlasFrames.fromTexturePackerJson(imageLoaded, (useMod ? File.getContent(myJson) : myJson));
@@ -460,9 +450,9 @@ class Paths
 		{
 			var retKey:String = (path != null) ? '$path/$key' : key;
 			retKey = ((path == 'songs') ? 'songs:' : '') + getPath('$retKey.$SOUND_EXT', SOUND, library);
-			if(OpenFlAssets.exists(retKey, SOUND))
+			if(Assets.exists(retKey, SOUND))
 			{
-				currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(retKey));
+				currentTrackedSounds.set(gottenPath, Assets.getSound(retKey));
 				//trace('precached vanilla sound: $retKey');
 			}
 		}
@@ -472,7 +462,7 @@ class Paths
 
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
-		return 'mods/' + key;
+		return  #if mobile Sys.getCwd() + #end 'mods/' + key;
 	}
 
 	inline static public function modsFont(key:String) {
@@ -534,9 +524,31 @@ class Paths
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 		}
-		return 'mods/' + key;
+		return #if mobile Sys.getCwd() + #end 'mods/' + key;
 	}
 	#end
+
+	public static function readDirectory(directory:String):Array<String>
+	{
+		#if MODS_ALLOWED
+		return FileSystem.readDirectory(directory);
+		#else
+		var dirsWithNoLibrary = Assets.list().filter(folder -> folder.startsWith(directory));
+		var dirsWithLibrary:Array<String> = [];
+		for(dir in dirsWithNoLibrary)
+		{
+			@:privateAccess
+			for(library in lime.utils.Assets.libraries.keys())
+			{
+				if(Assets.exists('$library:$dir') && library != 'default' && (!dirsWithLibrary.contains('$library:$dir') || !dirsWithLibrary.contains(dir)))
+					dirsWithLibrary.push('$library:$dir');
+				else if(Assets.exists(dir) && !dirsWithLibrary.contains(dir))
+						dirsWithLibrary.push(dir);
+			}
+		}
+		return dirsWithLibrary;
+		#end
+	}
 
 	#if flxanimate
 	public static function loadAnimateAtlas(spr:FlxAnimate, folderOrImg:Dynamic, spriteJson:Dynamic = null, animationJson:Dynamic = null)
