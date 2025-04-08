@@ -61,7 +61,7 @@
 	<!-- __________________________ Game Assets & Etc. __________________________ -->
 	
 	<!-- Turn on Crash Handler -->
-	<define name="CRASH_HANDLER" if="desktop release" />
+	<define name="CRASH_HANDLER" />
 
 	<!-- Assets -->
 	<assets path="assets/fonts" embed="true"/>
