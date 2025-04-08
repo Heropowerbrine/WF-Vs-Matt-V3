@@ -68,6 +68,7 @@ class Main extends Sprite
  		#end
  		Sys.setCwd(SUtil.getStorageDirectory());
  		#end
+		mobile.backend.CrashHandler.init();
 		super();
 
 		// Credits to MAJigsaw77 (he's the og author for this code)
@@ -76,8 +77,6 @@ class Main extends Sprite
 		//#elseif ios
 		//Sys.setCwd(lime.system.System.applicationStorageDirectory);
 		//#end
-
-		mobile.backend.CrashHandler.init();
 
 		if (stage != null)
 		{
