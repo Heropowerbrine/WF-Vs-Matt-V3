@@ -57,8 +57,14 @@ class CopyState extends MusicBeatState
 
 	override function create()
 	{
-		File.saveContent("files/test.txt", "This is a test text because the port is crashing for some reason");
-                trace("Test file written.");
+		new FlxTimer().start(1, (_) -> {
+	var path = Path.join([Sys.getCwd(), "files"]);
+	if (!FileSystem.exists(path))
+		FileSystem.createDirectory(path);
+	File.saveContent(Path.join([path, "test.txt"]), "This is a test text...");
+	trace("Test file written.");
+});
+		
 		locatedFiles = [];
 		maxLoopTimes = 0;
 		checkExistingFiles();
