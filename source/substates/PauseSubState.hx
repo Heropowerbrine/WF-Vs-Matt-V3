@@ -18,7 +18,14 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to menu'];
+	var menuItemsOG:Array<String> = [
+		'Resume',
+		'Restart Song',
+		'Change Difficulty',
+		'Options',
+		'Chart Editor',
+		'Exit to menu'
+	];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -150,6 +157,11 @@ class PauseSubState extends MusicBeatSubstate
 		regenMenu();
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 
+		#if android
+		addVirtualPad((PlayState.chartingMode ? FULL : UP_DOWN), A);
+		addVPadCam();
+		#end
+
 		super.create();
 	}
 	
@@ -172,18 +184,18 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		if(controls.BACK)
+		if(controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 		{
 			close();
 			return;
 		}
 
 		updateSkipTextStuff();
-		if (controls.UI_UP_P)
+		if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 		{
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 		{
 			changeSelection(1);
 		}
@@ -192,25 +204,25 @@ class PauseSubState extends MusicBeatSubstate
 		switch (daSelected)
 		{
 			case 'Skip Time':
-				if (controls.UI_LEFT_P)
+				if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 					curTime -= 1000;
 					holdTime = 0;
 				}
-				if (controls.UI_RIGHT_P)
+				if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 					curTime += 1000;
 					holdTime = 0;
 				}
 
-				if(controls.UI_LEFT || controls.UI_RIGHT)
+				if(controls.UI_LEFT || controls.UI_RIGHT #if mobile || _virtualpad.buttonLeft.pressed || _virtualpad.buttonRight.pressed #end)
 				{
 					holdTime += elapsed;
 					if(holdTime > 0.5)
 					{
-						curTime += 45000 * elapsed * (controls.UI_LEFT ? -1 : 1);
+						curTime += 45000 * elapsed * (controls.UI_LEFT #if mobile || _virtualpad.buttonLeft.pressed #end ? -1 : 1);
 					}
 
 					if(curTime >= FlxG.sound.music.length) curTime -= FlxG.sound.music.length;
@@ -219,7 +231,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (controls.ACCEPT && (cantUnpause <= 0 || !controls.controllerMode))
+		if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end && (cantUnpause <= 0 || !controls.controllerMode))
 		{
 			if (menuItems == difficultyChoices)
 			{
@@ -310,6 +322,9 @@ class PauseSubState extends MusicBeatSubstate
 						FlxG.sound.music.time = pauseMusic.time;
 					}
 					OptionsState.onPlayState = true;
+				case 'Chart Editor':
+                    MusicBeatState.switchState(new states.editors.ChartingState());
+					PlayState.chartingMode = true;
 				case "Exit to menu":
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 					PlayState.deathCounter = 0;
@@ -322,7 +337,7 @@ class PauseSubState extends MusicBeatSubstate
 						MusicBeatState.switchState(new FreeplayState());
 
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					FlxG.sound.music.loopTime = states.MainMenuState.MAIN_MENU_MUSIC_LOOP_START_TIME;
+                                        FlxG.sound.music.loopTime = states.MainMenuState.MAIN_MENU_MUSIC_LOOP_START_TIME;
 					FlxG.sound.music.endTime = states.MainMenuState.MAIN_MENU_MUSIC_LOOP_END_TIME;
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
