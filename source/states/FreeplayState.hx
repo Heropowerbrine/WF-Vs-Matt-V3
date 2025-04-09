@@ -526,7 +526,7 @@ class FreeplayState extends MusicBeatState
 				player.pauseOrResume(player.paused);
 			}
 		}
-		else if ((controls.ACCEPT || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(grpSongs.members[curSelected])) #if mobile || _virtualpad.buttonA.justPressed #end) && !player.playingMusic && !songs[curSelected].locked)
+		else if ((controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end) && !player.playingMusic && !songs[curSelected].locked)
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
