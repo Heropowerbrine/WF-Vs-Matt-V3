@@ -113,11 +113,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		var option:Option = new Option('Keyboard Enabled',
+		/*var option:Option = new Option('Keyboard Enabled',
  			'Check this if you want to play with\na keyboard on the Android Port',
  			'keyboardEnabled',
  			'bool');
- 		addOption(option);
+ 		addOption(option);*/
 
 		super();
 	}
