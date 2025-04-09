@@ -132,8 +132,8 @@ class Main extends Sprite
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 
-		FlxG.game.soundTray.volumeDownSound = "assets/shared/sounds/wiiTextHover";
-		FlxG.game.soundTray.volumeUpSound = "assets/shared/sounds/wiiTextHover";
+		//FlxG.game.soundTray.volumeDownSound = "assets/shared/sounds/wiiTextHover";
+		//FlxG.game.soundTray.volumeUpSound = "assets/shared/sounds/wiiTextHover";
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
