@@ -62,6 +62,8 @@ class Main extends Sprite
 
 	public function new()
 	{
+		super();
+
 		#if mobile
  		#if android
  		SUtil.requestPermissions();
@@ -69,7 +71,6 @@ class Main extends Sprite
  		Sys.setCwd(SUtil.getStorageDirectory());
  		#end
 		mobile.backend.CrashHandler.init();
-		super();
 
 		// Credits to MAJigsaw77 (he's the og author for this code)
 		//#if android
