@@ -52,6 +52,14 @@ class HealthNSafety extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+ 
+ 		#if mobile
+                 for (touch in FlxG.touches.list)
+ 	                if (touch.justPressed)
+ 		                justTouched = true;
+ 		#end
+			
 		if(canLeave) enterAlpha += elapsed;
 		pressText.alpha = (Math.sin((enterAlpha-0.6)/0.5)/1.9) + 0.46;
 
@@ -69,7 +77,7 @@ class HealthNSafety extends MusicBeatState
 		}
 
 		if(!leftState) {
-			if (enter) {
+			if (enter || justTouched) {
 				leftState = true;
 				canLeave = true;
 				FlxTransitionableState.skipNextTransIn = true;
