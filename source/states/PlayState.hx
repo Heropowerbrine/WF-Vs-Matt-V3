@@ -808,7 +808,7 @@ class PlayState extends MusicBeatState
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
 
-		addHitbox(PlayState.keyCount);
+		addHitbox(PlayState.keyCount - 1);
  		_hitbox.visible = false;
 
 		startingSong = true;
