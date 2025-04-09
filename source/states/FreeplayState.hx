@@ -229,6 +229,10 @@ class FreeplayState extends MusicBeatState
 		
 		player = new MusicPlayer(this);
 		add(player);
+
+		#if mobile
+		addVirtualPad(FULL, A_B_C_X_Y_Z);
+		#end
 		
 		changeSelection();
 		super.create();
@@ -238,6 +242,8 @@ class FreeplayState extends MusicBeatState
 		changeSelection(0, false);
 		persistentUpdate = true;
 		super.closeSubState();
+		removeVirtualPad();
+		addVirtualPad(FULL, A_B_C_X_Y_Z);
 	}
 
 	public function addSong(songName:String, weekNum:Int, weekName:String, songCharacter:String, color:Int)
@@ -349,7 +355,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+		if(FlxG.keys.pressed.SHIFT #if mobile || _virtualpad.buttonZ.pressed #end) shiftMult = 3;
 
 		if (!player.playingMusic)
 		{
@@ -372,27 +378,27 @@ class FreeplayState extends MusicBeatState
 					holdTime = 0;	
 					mouseUpdateTimer = 0;
 				}
-				if (controls.UI_UP_P)
+				if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 				{
 					changeSelection(-shiftMult);
 					holdTime = 0;
 					mouseUpdateTimer = 0;
 				}
-				if (controls.UI_DOWN_P)
+				if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 				{
 					changeSelection(shiftMult);
 					holdTime = 0;
 					mouseUpdateTimer = 0;
 				}
 
-				if(controls.UI_DOWN || controls.UI_UP)
+				if(controls.UI_DOWN || controls.UI_UP #if mobile || _virtualpad.buttonDown.pressed || _virtualpad.buttonUp.pressed #end)
 				{
 					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 					holdTime += elapsed;
 					var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
 
 					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
-						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+						changeSelection((checkNewHold - checkLastHold) * ((controls.UI_UP #if mobile || _virtualpad.buttonUp.pressed #end) ? -shiftMult : shiftMult));
 				}
 
 				if (mouseUpdateTimer > 0) {
@@ -421,13 +427,13 @@ class FreeplayState extends MusicBeatState
 				}
 			}
 
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 			{
 				changeDiff(-1);
 				_updateSongLastDifficulty();
 				mouseUpdateTimer = 0;
 			}
-			else if (controls.UI_RIGHT_P)
+			else if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 			{
 				changeDiff(1);
 				_updateSongLastDifficulty();
@@ -446,7 +452,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if (controls.BACK)
+		if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 		{
 			if (player.playingMusic)
 			{
@@ -471,12 +477,15 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.CONTROL && !player.playingMusic)
+		if(FlxG.keys.justPressed.CONTROL #if mobile || _virtualpad.buttonC.justPressed #end && !player.playingMusic)
 		{
 			persistentUpdate = false;
+		        #if mobile
+			removeVirtualPad();
+			#end
 			openSubState(new GameplayChangersSubstate());
 		}
-		else if(FlxG.keys.justPressed.SPACE && !songs[curSelected].locked)
+		else if(FlxG.keys.justPressed.SPACE #if mobile || _virtualpad.buttonY.justPressed #end && !songs[curSelected].locked)
 		{
 			if(instPlaying != curSelected && !player.playingMusic)
 			{
@@ -517,7 +526,7 @@ class FreeplayState extends MusicBeatState
 				player.pauseOrResume(player.paused);
 			}
 		}
-		else if ((controls.ACCEPT || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(grpSongs.members[curSelected]))) && !player.playingMusic && !songs[curSelected].locked)
+		else if ((controls.ACCEPT || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(grpSongs.members[curSelected])) #if mobile || _virtualpad.buttonA.justPressed #end) && !player.playingMusic && !songs[curSelected].locked)
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
@@ -565,10 +574,13 @@ class FreeplayState extends MusicBeatState
 			DiscordClient.loadModRPC();
 			#end
 		}
-		else if(controls.RESET && !player.playingMusic && !songs[curSelected].locked)
+		else if(controls.RESET #if mobile || _virtualpad.buttonX.justPressed #end && !player.playingMusic && !songs[curSelected].locked)
 		{
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
+                        #if mobile
+			removeVirtualPad();
+			#end
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 
