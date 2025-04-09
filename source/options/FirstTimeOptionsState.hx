@@ -121,7 +121,7 @@ class FirstTimeOptionsState extends MusicBeatState
                         substate.backButton.text.width = substate.backButton.text.fieldWidth;
                     }
 
-                    var warningText = new WiiCustomText(60, 400, FlxG.width, "Recommended to disable if sensitive to flashing lights! (or if your pc sucks)", 1, "wii");
+                    var warningText = new WiiCustomText(60, 400, FlxG.width, "Recommended to disable if sensitive to flashing lights! (or if your phone sucks)", 1, "wii");
                     warningText.scrollFactor.set();
                     warningText.width = warningText.fieldWidth;
                     warningText.screenCenter(X);
