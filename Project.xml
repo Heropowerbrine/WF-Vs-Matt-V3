@@ -77,9 +77,9 @@
 		<assets path="assets/secrets" rename="assets/shared" exclude="*.mp3"  unless="web"/>
 	</section>
 
-	<assets path="assets/embedShared" rename="assets/shared" embed="true"/>
-	<assets path="assets/embed" rename="assets" embed="true"/>
-	<assets path="assets/embedSongs" library="songs" rename="assets/songs" embed="true"/>
+	<assets path="assets/embedShared" rename="assets/shared" embed="false"/>
+	<assets path="assets/embed" rename="assets" embed="false"/>
+	<assets path="assets/embedSongs" library="songs" rename="assets/songs" embed="false"/>
 
 	<assets path='alsoft.ini' />
 
