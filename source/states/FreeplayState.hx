@@ -307,7 +307,7 @@ class FreeplayState extends MusicBeatState
 	var instPlaying:Int = -1;
 	public static var vocals:FlxSound = null;
 	var holdTime:Float = 0;
-	var mouseUpdateTimer:Float = 0;
+	//var mouseUpdateTimer:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (FlxG.sound.music.volume < 0.7)
@@ -322,11 +322,11 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpRating - intendedRating) <= 0.01)
 			lerpRating = intendedRating;
 
-		if (mouseUpdateTimer > 0) {
+		/*if (mouseUpdateTimer > 0) {
 			mouseUpdateTimer -= elapsed;
 		} else if (FlxG.mouse.justMoved || FlxG.mouse.wheel != 0) {
 			mouseUpdateTimer = 1;
-		}
+		}*/
 
 
 		var currentPort:String = "";
@@ -369,26 +369,26 @@ class FreeplayState extends MusicBeatState
 					curSelected = 0;
 					changeSelection();
 					holdTime = 0;
-					mouseUpdateTimer = 0;
+					//mouseUpdateTimer = 0;
 				}
 				else if(FlxG.keys.justPressed.END)
 				{
 					curSelected = songs.length - 1;
 					changeSelection();
 					holdTime = 0;	
-					mouseUpdateTimer = 0;
+					//mouseUpdateTimer = 0;
 				}
 				if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 				{
 					changeSelection(-shiftMult);
 					holdTime = 0;
-					mouseUpdateTimer = 0;
+					//mouseUpdateTimer = 0;
 				}
 				if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 				{
 					changeSelection(shiftMult);
 					holdTime = 0;
-					mouseUpdateTimer = 0;
+					//mouseUpdateTimer = 0;
 				}
 
 				if(controls.UI_DOWN || controls.UI_UP #if mobile || _virtualpad.buttonDown.pressed || _virtualpad.buttonUp.pressed #end)
@@ -401,7 +401,7 @@ class FreeplayState extends MusicBeatState
 						changeSelection((checkNewHold - checkLastHold) * ((controls.UI_UP #if mobile || _virtualpad.buttonUp.pressed #end) ? -shiftMult : shiftMult));
 				}
 
-				if (mouseUpdateTimer > 0) {
+				/*if (mouseUpdateTimer > 0) {
 					for (i => spr in grpSongs.members) {
 						if (FlxG.mouse.overlaps(spr) && curSelected != i) {
 							curSelected = i;
@@ -424,23 +424,23 @@ class FreeplayState extends MusicBeatState
 					if (lastScroll != selectedScroll) {
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
 					}
-				}
+				}*/
 			}
 
 			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 			{
 				changeDiff(-1);
 				_updateSongLastDifficulty();
-				mouseUpdateTimer = 0;
+				//mouseUpdateTimer = 0;
 			}
 			else if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 			{
 				changeDiff(1);
 				_updateSongLastDifficulty();
-				mouseUpdateTimer = 0;
+				//mouseUpdateTimer = 0;
 			}
 
-			if (FlxG.mouse.justPressed) {
+			/*if (FlxG.mouse.justPressed) {
 				if (FlxG.mouse.y >= scoreBG.y && FlxG.mouse.x >= FlxG.width-scoreBG.scale.x) {
 					if (FlxG.mouse.x < FlxG.width - (scoreBG.scale.x*0.5)) {
 						changeDiff(-1);
@@ -449,7 +449,7 @@ class FreeplayState extends MusicBeatState
 					}
 					_updateSongLastDifficulty();
 				}
-			}
+			}*/
 		}
 
 		if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
