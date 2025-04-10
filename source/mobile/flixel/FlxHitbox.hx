@@ -11,6 +11,7 @@ import openfl.display.Shape;
 
 class FlxHitbox extends FlxSpriteGroup {
 	public var hitbox:FlxSpriteGroup;
+	public var hints:FlxSpriteGroup;
 
 	public var array:Array<FlxButton> = [];
 
