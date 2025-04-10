@@ -29,6 +29,7 @@ class FlxHitbox extends FlxSpriteGroup {
 	public function new(?type:Int = 3) {
 		super();
 		hitbox = new FlxSpriteGroup();
+		hints = new FlxSpriteGroup();
 		
 		var keyCount:Int = type + 1;
 		var hitboxWidth:Int = Math.floor(FlxG.width / keyCount);
