@@ -11,7 +11,7 @@ import states.TitleState;
 	public var screensaver:Bool = false;
  	public var wideScreen:Bool = false;
  	public var controlsAlpha:Float = 0.7;
- 	public var hideHitboxHints:Bool = false;
+ 	public var hideHitboxHints:Bool = true;
 	public static var keyboardEnabled:Bool = false;
  	#if android
  	public var storageType:String = "EXTERNAL_DATA";
