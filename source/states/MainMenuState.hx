@@ -1671,12 +1671,16 @@ class BreakPopupSubstate extends MusicBeatSubstate {
 		{
 			FlxG.sound.music.volume += 0.5 * elapsed;
 		}
+		var justTouched:Bool = false;
+ 		for (touch in FlxG.touches.list)
+ 			if (touch.justPressed)
+ 				justTouched = true;
 		super.update(elapsed);
 
 		if (exitTimer > 0) {
 			exitTimer -= elapsed;
 		} else {
-			if (controls.ACCEPT) {
+			if (controls.ACCEPT || justTouched) {
 				MainMenuState.instance.persistentUpdate = true;
 				close();
 			}
