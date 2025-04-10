@@ -390,7 +390,7 @@ class ChartingState extends MusicBeatState
 		add(nightmareMatt);
 
 		#if mobile
-		addVirtualPad(NONE, A_B);
+		addVirtualPad(NONE, A);
 		#end
 
 		updateGrid();
@@ -1860,7 +1860,7 @@ class ChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
-			if (FlxG.keys.justPressed.ESCAPE #if mobile || _virtualpad.buttonB.justPressed #end)
+			if (FlxG.keys.justPressed.ESCAPE)
 			{
 				if(FlxG.sound.music != null)
 					FlxG.sound.music.stop();
