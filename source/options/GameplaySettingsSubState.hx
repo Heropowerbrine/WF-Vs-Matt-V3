@@ -119,6 +119,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
  			'bool');
  		addOption(option);*/
 
+		var option:Option = new Option('Hide Hitbox Hints',
+		    'If checked, makes the hitbox invisible.',
+		    'hideHitboxHints',
+		    'bool');
+		addOption(option);
+
 		super();
 	}
 
