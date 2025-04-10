@@ -138,6 +138,31 @@ class FirstTimeOptionsState extends MusicBeatState
                 }
                
                 openSubState(substate);
+	    case 6:
+                var substate = new WiiOptionSelectSubstate("Hide Hitbox Hints", ["On", "Off"], ClientPrefs.data.hideHitboxHints ? "On" : "Off", function(optionName)
+                {
+                    ClientPrefs.data.hideHitboxHints = optionName == "On";
+                    curIndex++;
+                    substateNeedsOpening = true;
+                }, function() {
+                    curIndex--;
+                    substateNeedsOpening = true;
+                });
+                @:privateAccess {
+                    @:privateAccess {
+                        substate.backButton.text.text = "Back";
+                        substate.backButton.text.width = substate.backButton.text.fieldWidth;
+                    }
+
+                    var warningText = new WiiCustomText(60, 400, FlxG.width, "If checked, makes the hitbox hints invisible.", 1, "wii");
+                    warningText.scrollFactor.set();
+                    warningText.width = warningText.fieldWidth;
+                    warningText.screenCenter(X);
+                    warningText.alpha = 0; FlxTween.tween(warningText, {alpha: 1}, 0.5);
+                    substate.add(warningText);
+                    substate.bgs.push(warningText);
+		}
+                openSubState(substate);
             default:
                 exit();
 		}
