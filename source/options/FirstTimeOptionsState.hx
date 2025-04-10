@@ -37,6 +37,13 @@ class FirstTimeOptionsState extends MusicBeatState
                 substate.canCancel = false;
                 @:privateAccess
                 substate.backButton.x = 10000; //fuck off
+	        var warningText = new WiiCustomText(60, 400, FlxG.width, "These controls only work if you have connected a keyboard, if you are using the mobile controls just ignore this and continue", 1, "wii");
+                    warningText.scrollFactor.set();
+                    warningText.width = warningText.fieldWidth;
+                    warningText.screenCenter(X);
+                    warningText.alpha = 0; FlxTween.tween(warningText, {alpha: 1}, 0.5);
+                    substate.add(warningText);
+                    substate.bgs.push(warningText);
                 openSubState(substate); 
 			case 1:
                 var substate = new WiiOptionSelectSubstate("Downscroll", ["On", "Off"], ClientPrefs.data.downScroll ? "On" : "Off", function(optionName)
