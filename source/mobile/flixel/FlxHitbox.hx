@@ -35,6 +35,8 @@ class FlxHitbox extends FlxSpriteGroup {
 		for (i in 0 ... keyCount) {
 			hitbox.add(add(array[i] = createhitbox(hitboxWidth * i, 0, hitboxWidth, FlxG.height, hitboxColor[keyCount][i])));
       array[i].stringIDs = ['${type}_key_${keyCount}'];
+		if (!ClientPrefs.data.hideHitboxHints)
+			    hints.add(add(createHints(hitboxWidth * i, 0, hitboxWidth, FlxG.height, hitboxColor[keyCount][i])));
 		}
 	}
 
@@ -47,8 +49,7 @@ class FlxHitbox extends FlxSpriteGroup {
 		button.updateHitbox();
 		button.alpha = 0.00001;
 
-		if (!ClientPrefs.data.hideHitboxHints)
-		{
+		
 			button.onDown.callback = function()
 			{
 				if (hintTween != null)
@@ -88,7 +89,6 @@ class FlxHitbox extends FlxSpriteGroup {
 					}
 				});
 			}
-		}
 		#if FLX_DEBUG
 		hint.ignoreDrawDebug = true;
 		#end
@@ -120,5 +120,23 @@ class FlxHitbox extends FlxSpriteGroup {
 		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
 		bitmap.draw(shape);
 		return bitmap;
+	}
+	public function createHints(x:Float = 0, y:Float = 0, width:Int, height:Int, color:String) {
+		var shape:Shape = new Shape();
+		shape.graphics.beginFill(0xFFFFFF);
+		shape.graphics.lineStyle(3, 0xFFFFFF, 1);
+		shape.graphics.drawRect(0, 0, width, height);
+		shape.graphics.lineStyle(0, 0, 0);
+		shape.graphics.drawRect(3, 3, width - 6, height - 6);
+		shape.graphics.endFill();
+		
+		var bitmap:BitmapData = new BitmapData(width, height, true, 0);
+		bitmap.draw(shape);
+ 
+        var hintSpr:FlxSprite = new FlxSprite(x, y, bitmap);
+		hintSpr.updateHitbox();
+		hintSpr.color = CoolUtil.colorFromString(color);
+
+		return hintSpr;
 	}
 }
