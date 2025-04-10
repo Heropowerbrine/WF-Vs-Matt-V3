@@ -389,6 +389,10 @@ class ChartingState extends MusicBeatState
 		nightmareMatt.alpha = 0.001;
 		add(nightmareMatt);
 
+		#if mobile
+		addVirtualPad(NONE, A_B);
+		#end
+
 		updateGrid();
 		super.create();
 	}
@@ -1854,7 +1858,7 @@ class ChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
 			{
 				if(FlxG.sound.music != null)
 					FlxG.sound.music.stop();
@@ -1876,7 +1880,7 @@ class ChartingState extends MusicBeatState
 				playtestingOnComplete = FlxG.sound.music.onComplete;
 				openSubState(new states.editors.EditorPlayState(playbackSpeed));
 			}
-			else if (FlxG.keys.justPressed.ENTER)
+			else if (FlxG.keys.justPressed.ENTER  #if mobile || _virtualpad.buttonA.justPressed #end)
 			{
 				autosaveSong();
 				//FlxG.mouse.visible = false;
@@ -1902,7 +1906,7 @@ class ChartingState extends MusicBeatState
 			}
 
 
-			if (FlxG.keys.justPressed.BACKSPACE) {
+			if (FlxG.keys.justPressed.BACKSPACE  #if mobile || _virtualpad.buttonB.justPressed #end) {
 				// Protect against lost data when quickly leaving the chart editor.
 				autosaveSong();
 				PlayState.chartingMode = false;
@@ -2004,6 +2008,27 @@ class ChartingState extends MusicBeatState
 
 				pauseAndSetVocalsTime();
 			}
+
+			#if android
+            var overlapsGridBg = (FlxG.mouse.x > gridBG.x
+			&& FlxG.mouse.x < gridBG.x + gridBG.width
+			&& FlxG.mouse.y > gridBG.y
+		    && FlxG.mouse.y < gridBG.y + (GRID_SIZE * getSectionBeats() * 4) * zoomList[curZoom]);
+
+            var mouse = FlxG.mouse.getScreenPosition();
+
+			if (overlapsGridBg && FlxG.mouse.justMoved && FlxG.mouse.pressed) {
+				FlxG.sound.music.pause();
+
+		        if (FlxG.mouse.justPressed) {
+                    timePos = FlxG.sound.music.time + mouse.y;
+		    	} else if (FlxG.mouse.pressed) {
+                    FlxG.sound.music.time = timePos - mouse.y;
+			    }
+
+				pauseAndSetVocalsTime();
+			}
+            #end
 
 			if(!vortex){
 				if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN  )
