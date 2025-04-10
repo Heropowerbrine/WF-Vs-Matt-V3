@@ -123,7 +123,7 @@ class FlxHitbox extends FlxSpriteGroup {
 		bitmap.draw(shape);
 		return bitmap;
 	}
-	public function createHints(x:Float = 0, y:Float = 0, width:Int, height:Int, color:String) {
+	public function createHints(x:Float = 0, y:Float = 0, width:Int, height:Int, color:Int) {
 		var shape:Shape = new Shape();
 		shape.graphics.beginFill(0xFFFFFF);
 		shape.graphics.lineStyle(3, 0xFFFFFF, 1);
@@ -137,7 +137,7 @@ class FlxHitbox extends FlxSpriteGroup {
  
         var hintSpr:FlxSprite = new FlxSprite(x, y, bitmap);
 		hintSpr.updateHitbox();
-		hintSpr.color = CoolUtil.colorFromString(color);
+		hintSpr.color = color;
 
 		return hintSpr;
 	}
