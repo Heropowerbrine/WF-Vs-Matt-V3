@@ -37,7 +37,7 @@ class FirstTimeOptionsState extends MusicBeatState
                 substate.canCancel = false;
                 @:privateAccess
                 substate.backButton.x = 10000; //fuck off
-	        var warningText = new WiiCustomText(60, 400, FlxG.width, "These controls only work if you have connected a keyboard, if you are using the mobile controls just ignore this and continue", 1, "wii");
+	        var warningText = new WiiCustomText(60, 500, FlxG.width, "These controls only work if you have connected a keyboard, if you are using the mobile controls just ignore this and continue", 1, "wii");
                     warningText.scrollFactor.set();
                     warningText.width = warningText.fieldWidth;
                     warningText.screenCenter(X);
