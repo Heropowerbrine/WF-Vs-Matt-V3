@@ -1725,6 +1725,7 @@ class ChartingState extends MusicBeatState
 
 	var lastConductorPos:Float;
 	var colorSine:Float = 0;
+	var timePos:Float;
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
