@@ -199,7 +199,7 @@ class MusicPlayer extends FlxGroup
 		}
 		updatePlaybackTxt();
 	
-		if (instance.controls.RESET)
+		if (instance.controls.RESET #if mobile || instance._virtualpad.buttonX.justPressed #end)
 		{
 			playbackRate = 1;
 			setPlaybackRate();
@@ -249,7 +249,7 @@ class MusicPlayer extends FlxGroup
 
 		if (playingMusic)
 		{
-			instance.bottomText.text = "Press SPACE to Pause / Press ESCAPE to Exit / Press R to Reset the Song";
+			instance.bottomText.text = "Press Y to Pause / Press B to Exit / Press X to Reset the Song";
 			positionSong();
 			
 			progressBar.setRange(0, FlxG.sound.music.length);
