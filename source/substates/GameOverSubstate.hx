@@ -87,11 +87,6 @@ class GameOverSubstate extends MusicBeatSubstate
 	public var startedDeath:Bool = false;
 	override function update(elapsed:Float)
 	{
-		var vPadBjustTouched:Bool = false;
-		if (_virtualpad.buttonB != null) {
-			if (_virtualpad.buttonB.justPressed)
-				vPadBjustTouched = true;
-		}
 		super.update(elapsed);
 
 		PlayState.instance.callOnScripts('onUpdate', [elapsed]);
@@ -101,7 +96,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			endBullshit();
 		}
 
-		if (controls.BACK #if mobile || vPadBjustTouched #end)
+		if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 		{
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 			FlxG.sound.music.stop();
