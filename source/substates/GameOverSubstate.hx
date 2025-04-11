@@ -10,7 +10,6 @@ import flixel.FlxSubState;
 import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
-import states.HealthNSafety;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -69,7 +68,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(camFollow);
 
 		#if mobile
-		if (HealthNSafety.unlock) {
+		if (WeekData.weeksList[PlayState.storyWeek] == "captcha" || WeekData.weeksList[PlayState.storyWeek] == "letterbomb") {
  		addVirtualPad(NONE,A_B);
  		addVPadCam();
 		} else {
