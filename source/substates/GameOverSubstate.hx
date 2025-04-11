@@ -69,10 +69,10 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		#if mobile
 		if (WeekData.weeksList[PlayState.storyWeek] == "captcha" || WeekData.weeksList[PlayState.storyWeek] == "letterbomb") {
- 		addVirtualPad(NONE,A_B);
+ 		addVirtualPad(NONE,A);
  		addVPadCam();
 		} else {
-		addVirtualPad(NONE, A);
+		addVirtualPad(NONE, A_B);
 		addVPadCam();
 		}
  		#end
