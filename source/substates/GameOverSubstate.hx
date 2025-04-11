@@ -10,6 +10,7 @@ import flixel.FlxSubState;
 import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
+import states.HealthNSafety;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -68,8 +69,13 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(camFollow);
 
 		#if mobile
+		if (HealthNSafety.unlock) {
  		addVirtualPad(NONE,A_B);
  		addVPadCam();
+		} else {
+		addVirtualPad(NONE, A);
+		addVPadCam();
+		}
  		#end
 		
 		PlayState.instance.setOnScripts('inGameOver', true);
